@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shanyuan.alipayorderadmin.dao.CmsStoreDao">
+
+    <resultMap id="baseMap" type="com.shanyuan.alipayorderadmin.dto.CmsStoreResult" extends="com.shanyuan.mapper.CmsStoreMapper.BaseResultMap">
+        <result property="account" column="account" jdbcType="VARCHAR"></result>
+        <result property="password" column="password" jdbcType="VARCHAR"></result>
+        <result property="type" column="type" jdbcType="INTEGER"></result>
+    </resultMap>
+
+    <select id="listStoreAccount" resultMap="baseMap">
+        select a.* ,b.account,b.password,b.type
+        from cms_store a
+        left join ums_oper b
+        on a.id=b.store_id
+        where a.brand_id=#{brandId}
+    </select>
+</mapper>

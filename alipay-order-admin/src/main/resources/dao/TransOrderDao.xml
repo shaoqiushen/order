@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shanyuan.alipayorderadmin.dao.TransOrderDao">
+
+    <select id="getTransOrderInfo" resultType="com.shanyuan.alipayorderadmin.domain.TransOrderInfo">
+        select sum(pay_amount) transactionTotal,count(*) orderTotal,substring(payment_time,1,10) payDate
+        from oms_order
+        where
+        brand_id = #{brandId}
+        <if test="params.storeId != null">
+            and store_id = #{params.storeId}
+        </if>
+        <if test="params.startTime != null">
+            and payment_time &gt;=#{params.startTime}
+        </if>
+        <if test="params.endTime != null">
+            and payment_time &lt;=#{params.endTime}
+        </if>
+        group by substring(payment_time,1,10)
+    </select>
+</mapper>

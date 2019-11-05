@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shanyuan.alipayorderportal.dao.PortalOrderDao">
+
+    <resultMap id="baseResultMap" type="com.shanyuan.alipayorderportal.dto.PortalOrderQueryResult" extends="com.shanyuan.mapper.OmsOrderMapper.BaseResultMap">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="store_name" property="storeName" jdbcType="VARCHAR"></result>
+        <collection property="orderDetailList" columnPrefix="de_" resultMap="com.shanyuan.mapper.OmsOrderDetailMapper.BaseResultMap"></collection>
+    </resultMap>
+    <insert id="insertOrderDetail">
+        insert into oms_order_detail(order_id,item_id,sp1,sp2,sp3,price,buy_count,sku_id)
+        values
+        <foreach collection="list" separator="," item="item">
+            (#{item.orderId},#{item.itemId},#{item.sp1},#{item.sp2},#{item.sp3},#{item.price},#{item.buyCount},#{item.skuId})
+        </foreach>
+    </insert>
+
+    <resultMap id="orderDetailMap" type="com.shanyuan.alipayorderportal.dto.PortalOrderDetailResult" extends="com.shanyuan.mapper.OmsOrderMapper.BaseResultMap">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <result column="order_id" property="orderId" jdbcType="BIGINT"></result>
+        <result column="store_name" property="storeName" jdbcType="VARCHAR"></result>
+        <result column="table_money" property="tableMoney" jdbcType="INTEGER"></result>
+        <collection property="orderDetailList" resultMap="detailMap" columnPrefix="det_" ></collection>
+    </resultMap>
+    <resultMap id="detailMap" type="com.shanyuan.alipayorderportal.domain.OrderDetail" extends="com.shanyuan.mapper.OmsOrderDetailMapper.BaseResultMap">
+        <result column="item_name" property="itemName" jdbcType="VARCHAR"></result>
+    </resultMap>
+    <select id="getUserOrderDetail" resultMap="orderDetailMap">
+        select
+        a.id,a.order_id,a.create_time,a.pay_type,a.receiver_name,a.receiver_phone,a.receiver_address,a.order_type,a.desk_no,a.pay_flag,
+        a.total_amount,a.pay_amount,a.free_amount,a.freight_amount,a.order_status,a.payment_time,a.notes,a.brand_id,a.store_id,a.table_money,
+        a.eat_people_amount,a.package_money,a.meal_no,
+        b.store_name,
+        c.sp1 det_sp1,c.sp2 det_sp2,c.sp3 det_sp3,c.price det_price,c.buy_count det_buy_count,c.item_id det_item_id,
+        d.item_name det_item_name
+         from oms_order a
+         left join cms_store b
+         on a.store_id = b.id
+         left join oms_order_detail c
+         on a.order_id = c.order_id
+         left join pms_item d
+         on d.id = c.item_id
+         where
+         a.order_id = #{orderId}
+         order by a.id desc
+    </select>
+
+    <select id="listOrderInfoByParams" resultMap="baseResultMap">
+        select o.*,
+        b.id de_id,
+        b.item_id de_item_id,b.price de_price,b.cancel_status de_cancel_status,
+        b.buy_count de_buy_count,b.order_id de_order_id,
+        b.sp1 de_sp1,b.sp2 de_sp2,b.sp3 de_sp3,
+        c.item_name de_item_name,
+        d.store_name
+        from
+        (
+        select ms.* from
+            (
+        <if test="portalOrderQueryParams.orderStatusList.size > 0">
+        <foreach collection="portalOrderQueryParams.orderStatusList" item="item" separator="union">
+            select a.*
+            from oms_order a
+            where
+            a.user_id = #{portalOrderQueryParams.userId}
+            <if test="portalOrderQueryParams.storeId != null">
+                and a.store_id=#{portalOrderQueryParams.storeId}
+            </if>
+            and a.order_status = #{item}
+            and a.delete_status=0
+        </foreach>
+        </if>
+            ) ms
+        order by ms.id desc
+        limit #{startNum},#{endNum}
+        ) o
+        left join oms_order_detail b
+        on o.order_id=b.order_id
+        left join pms_item c
+        on c.id=b.item_id
+        left join cms_store d
+        on d.id=o.store_id
+        order by o.id desc
+    </select>
+
+    <select id="countOrder" resultType="java.lang.Integer">
+
+        <if test="portalOrderQueryParams.orderStatusList.size > 0">
+            select count(*)
+            from (
+            <foreach collection="portalOrderQueryParams.orderStatusList" item="item" separator="union">
+                select a.id
+                from oms_order a
+                where
+                a.user_id = #{portalOrderQueryParams.userId}
+                <if test="portalOrderQueryParams.storeId != null">
+                    and a.store_id=#{portalOrderQueryParams.storeId}
+                </if>
+                and a.order_status = #{item}
+            </foreach>
+            ) m
+        </if>
+
+    </select>
+
+    <select id="getOrderDetails" resultType="com.shanyuan.alipayorderportal.dto.PayOrderDetailsResult">
+        select a.item_id itemId,a.price,a.buy_count buyCount,
+        b.item_name itemName
+        from oms_order_detail a
+        left join pms_item b
+        on a.item_id = b.id
+        where
+        a.order_id = #{orderId}
+    </select>
+
+</mapper>

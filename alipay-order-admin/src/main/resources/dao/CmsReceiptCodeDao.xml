@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shanyuan.alipayorderadmin.dao.CmsReceiptCodeDao">
+
+    <resultMap id="baseMap" type="com.shanyuan.alipayorderadmin.dto.CmsReceiptCodeResult" extends="com.shanyuan.mapper.CmsReceiptCodeMapper.BaseResultMap">
+    </resultMap>
+
+  <select id="listReceiptCodeByStoreId" resultMap="baseMap">
+      select a.* ,(select count(*) from oms_order o where o.store_id = a.store_id and o.desk_no=a.desk_no) receiptTotal
+      from cms_receipt_code a
+      where a.store_id=#{storeId}
+      order by a.desk_no asc
+  </select>
+</mapper>

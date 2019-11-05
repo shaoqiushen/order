@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shanyuan.alipayorderadmin.dao.OmsReceiptCodeDao">
+
+    <select id="listReceiptCode" resultType="com.shanyuan.alipayorderadmin.dto.OmsReceiptCodeResult">
+
+        select
+          substring(payment_time,1,7)receiptDate,count(id) receiptSum,sum(pay_amount)receiptTotal
+		from oms_order
+            where
+            brand_id = #{params.brandId}
+            and store_id=#{params.storeId}
+            and desk_no = #{params.deskNo}
+            and order_type = 1
+            and payment_time is not null
+            group by
+            substring(payment_time,1,7)
+
+    </select>
+</mapper>

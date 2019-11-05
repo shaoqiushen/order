@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shanyuan.alipayorderportal.dao.PortalCartDao">
+
+
+    <insert id="createCart">
+        insert into oms_cart(user_id,item_id,sku_id,buy_count,create_time,store_id,brand_id)
+        values
+        <foreach collection="list" separator="," item="item">
+            (#{item.userId},#{item.itemId},#{item.skuId},#{item.buyCount},#{item.createTime},#{item.storeId},#{item.brandId})
+        </foreach>
+    </insert>
+
+
+
+</mapper>

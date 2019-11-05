@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shanyuan.mapper.CmsCarouselMapper">
+  <resultMap id="BaseResultMap" type="com.shanyuan.model.CmsCarousel">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="brand_id" jdbcType="BIGINT" property="brandId" />
+    <result column="store_id" jdbcType="INTEGER" property="storeId" />
+    <result column="picture" jdbcType="VARCHAR" property="picture" />
+    <result column="publish_status" jdbcType="INTEGER" property="publishStatus" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="outchain" jdbcType="VARCHAR" property="outchain" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="position" jdbcType="INTEGER" property="position" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, brand_id, store_id, picture, publish_status, sort, outchain, type, position
+  </sql>
+  <select id="selectByExample" parameterType="com.shanyuan.model.CmsCarouselExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cms_carousel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cms_carousel
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cms_carousel
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shanyuan.model.CmsCarouselExample">
+    delete from cms_carousel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shanyuan.model.CmsCarousel">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cms_carousel (brand_id, store_id, picture, 
+      publish_status, sort, outchain, 
+      type, position)
+    values (#{brandId,jdbcType=BIGINT}, #{storeId,jdbcType=INTEGER}, #{picture,jdbcType=VARCHAR}, 
+      #{publishStatus,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{outchain,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{position,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shanyuan.model.CmsCarousel">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cms_carousel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="brandId != null">
+        brand_id,
+      </if>
+      <if test="storeId != null">
+        store_id,
+      </if>
+      <if test="picture != null">
+        picture,
+      </if>
+      <if test="publishStatus != null">
+        publish_status,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="outchain != null">
+        outchain,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="brandId != null">
+        #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="storeId != null">
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="picture != null">
+        #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="publishStatus != null">
+        #{publishStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="outchain != null">
+        #{outchain,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shanyuan.model.CmsCarouselExample" resultType="java.lang.Integer">
+    select count(*) from cms_carousel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cms_carousel
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.brandId != null">
+        brand_id = #{record.brandId,jdbcType=BIGINT},
+      </if>
+      <if test="record.storeId != null">
+        store_id = #{record.storeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.picture != null">
+        picture = #{record.picture,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishStatus != null">
+        publish_status = #{record.publishStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.outchain != null">
+        outchain = #{record.outchain,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.position != null">
+        position = #{record.position,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cms_carousel
+    set id = #{record.id,jdbcType=INTEGER},
+      brand_id = #{record.brandId,jdbcType=BIGINT},
+      store_id = #{record.storeId,jdbcType=INTEGER},
+      picture = #{record.picture,jdbcType=VARCHAR},
+      publish_status = #{record.publishStatus,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      outchain = #{record.outchain,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      position = #{record.position,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shanyuan.model.CmsCarousel">
+    update cms_carousel
+    <set>
+      <if test="brandId != null">
+        brand_id = #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="picture != null">
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="publishStatus != null">
+        publish_status = #{publishStatus,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="outchain != null">
+        outchain = #{outchain,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shanyuan.model.CmsCarousel">
+    update cms_carousel
+    set brand_id = #{brandId,jdbcType=BIGINT},
+      store_id = #{storeId,jdbcType=INTEGER},
+      picture = #{picture,jdbcType=VARCHAR},
+      publish_status = #{publishStatus,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      outchain = #{outchain,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      position = #{position,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

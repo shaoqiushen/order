@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shanyuan.alipayorderadmin.dao.PmsItemAttrValueDao">
+    <insert id="insertList">
+        insert into pms_item_attr_value (item_id,attr_id,value,attr_type,brand_id,store_id,attr_name) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.itemId,jdbcType=INTEGER},
+            #{item.attrId,jdbcType=INTEGER},
+            #{item.value,jdbcType=VARCHAR},
+            #{item.attrType,jdbcType=INTEGER},
+            #{item.brandId},
+            #{item.storeId},
+            #{item.attrName}
+            )
+        </foreach>
+    </insert>
+</mapper>

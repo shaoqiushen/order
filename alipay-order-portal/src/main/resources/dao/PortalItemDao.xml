@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shanyuan.alipayorderportal.dao.PortalItemDao">
+
+
+    <select id="getItemSkuInfo" resultType="com.shanyuan.model.PmsItemSku">
+
+        <foreach collection="list" index="index" item="item" separator="union">
+            (select
+            sku.id,
+            sku.item_id itemId,
+            sku.price ,
+            sku.promotion_price promotionPrice ,
+            sku.stock ,
+            sku.sp1,
+            sku.sp2,
+            sku.sp3
+            from
+            pms_item_sku sku
+            where
+            sku.id=#{item.skuId}
+            )
+        </foreach>
+    </select>
+
+    <select id="getItemAttrValueInfo" resultType="com.shanyuan.common.domain.PmsItemAttrValueResult">
+    select a.name,a.attr_type attrType,b.value
+    from pms_item_attr a
+    left join pms_item_attr_value b
+    on a.id= b.attr_id
+    where b.item_id = #{itemId}
+    order by a.sort
+  </select>
+
+
+    <!--<select id="getItemSkuInfoExt" resultType="">-->
+        <!--select-->
+        <!--sku.id skuId,-->
+        <!--sku.price ,-->
+            <!--sku.promotion_price promotionPrice ,-->
+            <!--sku.stock ,-->
+    <!--</select>-->
+</mapper>

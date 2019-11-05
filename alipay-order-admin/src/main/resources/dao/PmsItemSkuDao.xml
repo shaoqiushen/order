@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shanyuan.alipayorderadmin.dao.PmsItemSkuDao">
+    <insert id="insertList">
+        insert into pms_item_sku(item_id,promotion_price,price,stock,sp1,sp2,sp3,picture,brand_id,store_id)
+        values
+        <foreach collection="list" separator="," index="index" item="item">
+            (
+            #{item.itemId,jdbcType=INTEGER},
+            #{item.promotionPrice,jdbcType=INTEGER},
+            #{item.price,jdbcType=INTEGER},
+            #{item.stock,jdbcType=INTEGER},
+            #{item.sp1,jdbcType=VARCHAR},
+            #{item.sp2,jdbcType=VARCHAR},
+            #{item.sp3,jdbcType=VARCHAR},
+            #{item.picture,jdbcType=VARCHAR},
+            #{item.brandId},
+            #{item.storeId}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateList">
+        <foreach collection="list" separator=";" item="item">
+            update pms_item_sku set
+            item_id=#{item.itemId},
+            promotion_price=#{item.promotionPrice,jdbcType=INTEGER},
+            price=#{item.price,jdbcType=INTEGER},
+            stock=#{item.stock,jdbcType=INTEGER},
+            sp1=#{item.sp1,jdbcType=VARCHAR},
+            sp2=#{item.sp2,jdbcType=VARCHAR},
+            sp3=#{item.sp3,jdbcType=VARCHAR},
+            picture=#{item.picture,jdbcType=VARCHAR}
+            where id=#{item.id}
+        </foreach>
+    </update>
+
+    <delete id="deleteList">
+        <foreach collection="ids" item="id" separator=";">
+            delete from pms_item_sku where id=#{id}
+        </foreach>
+    </delete>
+</mapper>
