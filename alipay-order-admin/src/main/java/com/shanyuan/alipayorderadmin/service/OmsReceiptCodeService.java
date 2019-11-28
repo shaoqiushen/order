@@ -1,10 +1,7 @@
 package com.shanyuan.alipayorderadmin.service;
 
 import com.github.pagehelper.PageInfo;
-import com.shanyuan.alipayorderadmin.dto.CmsReceiptCodeParams;
-import com.shanyuan.alipayorderadmin.dto.CmsReceiptCodeResult;
-import com.shanyuan.alipayorderadmin.dto.OmsReceiptCodeResult;
-import com.shanyuan.alipayorderadmin.dto.OmsReceiptQueryParams;
+import com.shanyuan.alipayorderadmin.dto.*;
 import com.shanyuan.common.domain.CommonResult;
 import com.shanyuan.model.CmsReceiptCode;
 import com.shanyuan.model.OmsOrder;
@@ -28,4 +25,6 @@ public interface OmsReceiptCodeService {
     PageInfo<CmsReceiptCode> listDeskNo(Long brandId,Integer storeId,Integer pageNum,Integer pageSize);
 
     int countCode(Long brandId,Integer storeId);
+
+    PageInfo<CmsReceiptCodeRes> listReceiptCodeByParams(BrandStoreParams params,Integer pageNum,Integer pageSize);
 }

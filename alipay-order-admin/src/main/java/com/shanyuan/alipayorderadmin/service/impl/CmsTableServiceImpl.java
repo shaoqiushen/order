@@ -63,7 +63,14 @@ public class CmsTableServiceImpl implements CmsTableService {
             //说明要修改为启用状态//若系统中已存在 启用的数据//则修改失败
             CmsTable cmsTableInfo=cmsTableMapper.selectByPrimaryKey( id );
             if(cmsTableInfo != null){
-                return new CommonResult().failed( "系统中已存在启用的数据" );
+                CmsTableExample example = new CmsTableExample();
+                example.createCriteria().andBrandIdEqualTo( cmsTableInfo.getBrandId() )
+                        .andStoreIdEqualTo( cmsTableInfo.getStoreId() )
+                        .andEnableStatusEqualTo( 1 );
+                List <CmsTable> cmsTables=cmsTableMapper.selectByExample( example );
+                if(cmsTables.size()>0){
+                    return new CommonResult().failed( "系统中已存在启用的数据" );
+                }
             }
         }
         int count=cmsTableMapper.updateByPrimaryKeySelective( cmsTable );

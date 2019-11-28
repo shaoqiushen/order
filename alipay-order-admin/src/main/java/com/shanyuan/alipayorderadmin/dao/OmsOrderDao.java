@@ -1,6 +1,6 @@
 package com.shanyuan.alipayorderadmin.dao;
 
-import com.shanyuan.alipayorderadmin.dto.OmsOrderDetailResult;
+import com.shanyuan.common.domain.OmsOrderDetailResult;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,6 +13,6 @@ import java.util.List;
  * desc
  **/
 public interface OmsOrderDao {
-    List<OmsOrderDetailResult> listOrderDetail(@Param( "orderId" ) Long orderId);
+//    List<OmsOrderDetailResult> listOrderDetail(@Param( "orderId" ) Long orderId);
     List<OmsOrderDetailResult> getOrderInfo(@Param( "ids" ) List<Integer> ids);
 }

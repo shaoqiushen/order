@@ -21,23 +21,23 @@ public class MySessionManager extends DefaultWebSessionManager {
         super();
     }
 
-//    /**
-//     * 重写getSessionId方法
-//     * @param request
-//     * @param response
-//     * @return
-//     */
-//    @Override
-//    public Serializable getSessionId(ServletRequest request, ServletResponse response) {
-//        //页面请求头传过来的token
-//        String token = WebUtils.toHttp(request).getHeader("token");
-//        if(!StringUtils.isEmpty( token )){
-//            request.setAttribute( ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE,"token");
-//            request.setAttribute( ShiroHttpServletRequest.REFERENCED_SESSION_ID,token );
-//            request.setAttribute( ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID,Boolean.TRUE );
-//            return token;
-//        }
-//        //否则使用默认的方式
-//        return super.getSessionId( request, response );
-//    }
+    /**
+     * 重写getSessionId方法
+     * @param request
+     * @param response
+     * @return
+     */
+    @Override
+    public Serializable getSessionId(ServletRequest request, ServletResponse response) {
+        //页面请求头传过来的token
+        String token = WebUtils.toHttp(request).getHeader("token");
+        if(!StringUtils.isEmpty( token )){
+            request.setAttribute( ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE,"token");
+            request.setAttribute( ShiroHttpServletRequest.REFERENCED_SESSION_ID,token );
+            request.setAttribute( ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID,Boolean.TRUE );
+            return token;
+        }
+        //否则使用默认的方式
+        return super.getSessionId( request, response );
+    }
 }

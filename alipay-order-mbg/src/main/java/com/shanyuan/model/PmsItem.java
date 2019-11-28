@@ -136,6 +136,20 @@ public class PmsItem implements Serializable {
 
     private String extInfo;
 
+    /**
+     * 销量
+     *
+     * @mbggenerated
+     */
+    private Integer saleAmount;
+
+    /**
+     * 是否删除:0->否;1->是
+     *
+     * @mbggenerated
+     */
+    private Integer deleteStatus;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -306,6 +320,22 @@ public class PmsItem implements Serializable {
         this.extInfo = extInfo;
     }
 
+    public Integer getSaleAmount() {
+        return saleAmount;
+    }
+
+    public void setSaleAmount(Integer saleAmount) {
+        this.saleAmount = saleAmount;
+    }
+
+    public Integer getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    public void setDeleteStatus(Integer deleteStatus) {
+        this.deleteStatus = deleteStatus;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -333,6 +363,8 @@ public class PmsItem implements Serializable {
         sb.append(", materialId=").append(materialId);
         sb.append(", materialKey=").append(materialKey);
         sb.append(", extInfo=").append(extInfo);
+        sb.append(", saleAmount=").append(saleAmount);
+        sb.append(", deleteStatus=").append(deleteStatus);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

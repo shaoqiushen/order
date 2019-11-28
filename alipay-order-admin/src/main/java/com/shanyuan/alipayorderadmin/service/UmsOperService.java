@@ -1,7 +1,9 @@
 package com.shanyuan.alipayorderadmin.service;
 
 import com.github.pagehelper.PageInfo;
+import com.shanyuan.alipayorderadmin.dto.BrandStoreParams;
 import com.shanyuan.alipayorderadmin.dto.UmsOperParams;
+import com.shanyuan.alipayorderadmin.dto.UmsOperResult;
 import com.shanyuan.common.domain.CommonResult;
 import com.shanyuan.model.UmsOper;
 
@@ -19,7 +21,7 @@ public interface UmsOperService {
     //修改子账号
     CommonResult updateSubOper(Integer id,UmsOperParams params);
     //查看子账户列表
-    PageInfo<UmsOper> listSubOper(Integer pageNum, Integer pageSize, Long brandId);
+    PageInfo<UmsOperResult> listSubOper(BrandStoreParams params, Integer pageNum, Integer pageSize );
     //删除子账户
     int deleteSubOper(Integer id);
 

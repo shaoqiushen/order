@@ -29,6 +29,7 @@ public interface PortalOrderService {
     PageInfo<OmsOrder> listUserOrder(PortalOrderQueryParams params, Integer pageNum, Integer pageSize);
     PortalOrderDetailResult getUserOrderDetail(Long orderId);
     PageInfo<PortalOrderQueryResult> listOrderInfoByParams(PortalOrderQueryParams portalOrderQueryParams, Integer pageNum, Integer pageSize);
+    int cancelOrder(Long orderId);
 
 
 }

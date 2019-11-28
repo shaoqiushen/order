@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shanyuan.alipayorderadmin.dao.OmsOrderDao">
 
-    <select id="listOrderDetail" resultType="com.shanyuan.alipayorderadmin.dto.OmsOrderDetailResult">
-        select a.id,a.order_id,a.sp1,a.sp2,a.sp3,a.price,a.buy_count buyCount,a.cancel_status cancelStatus,a.cancel_desc cancelDesc,
-        b.item_name itemName
-        from oms_order_detail a
-        left join pms_item b
-        on a.item_id = b.id
-        where a.order_id = #{orderId}
-    </select>
+    <!--<select id="listOrderDetail" resultType="com.shanyuan.alipayorderadmin.dto.OmsOrderDetailResult">-->
+        <!--select a.id,a.order_id,a.sp1,a.sp2,a.sp3,a.price,a.buy_count buyCount,a.cancel_status cancelStatus,a.cancel_desc cancelDesc,-->
+        <!--b.item_name itemName-->
+        <!--from oms_order_detail a-->
+        <!--left join pms_item b-->
+        <!--on a.item_id = b.id-->
+        <!--where a.order_id = #{orderId}-->
+    <!--</select>-->
 
-    <select id="getOrderInfo" resultType="com.shanyuan.alipayorderadmin.dto.OmsOrderDetailResult">
+    <select id="getOrderInfo" resultType="com.shanyuan.common.domain.OmsOrderDetailResult">
 
         <foreach collection="ids" separator="union" item="item">
             select a.trade_no tradeNo,a.brand_id brandId,

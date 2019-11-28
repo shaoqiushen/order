@@ -45,6 +45,13 @@ public class UmsOper implements Serializable {
      */
     private Integer storeId;
 
+    /**
+     * 角色id
+     *
+     * @mbggenerated
+     */
+    private Integer roleId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -111,6 +118,14 @@ public class UmsOper implements Serializable {
         this.storeId = storeId;
     }
 
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -125,6 +140,7 @@ public class UmsOper implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", storeId=").append(storeId);
+        sb.append(", roleId=").append(roleId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

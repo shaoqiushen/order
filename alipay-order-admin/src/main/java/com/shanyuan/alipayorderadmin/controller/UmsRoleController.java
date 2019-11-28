@@ -2,6 +2,7 @@ package com.shanyuan.alipayorderadmin.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.shanyuan.alipayorderadmin.dto.UmsRoleParams;
+import com.shanyuan.alipayorderadmin.dto.UmsRoleResult;
 import com.shanyuan.alipayorderadmin.service.UmsRoleService;
 import com.shanyuan.common.domain.CommonResult;
 import com.shanyuan.common.utils.ResultUtil;
@@ -53,7 +54,7 @@ public class UmsRoleController {
     @PostMapping("/list/{brandId}")
     public CommonResult list(@PathVariable Long brandId,@RequestParam(required=false,defaultValue="-1")Integer storeId,
                              @RequestParam(defaultValue="1")Integer pageNum,@RequestParam(defaultValue="10")Integer pageSize){
-        PageInfo <UmsRole> list=umsRoleService.list( brandId, storeId, pageNum, pageSize );
+        PageInfo <UmsRoleResult> list=umsRoleService.list( brandId, storeId, pageNum, pageSize );
         return new CommonResult().pageSuccess( list );
     }
 }

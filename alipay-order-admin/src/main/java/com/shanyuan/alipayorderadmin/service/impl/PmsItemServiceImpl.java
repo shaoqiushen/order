@@ -9,8 +9,6 @@ import com.shanyuan.alipayorderadmin.dao.PmsItemAttrValueDao;
 import com.shanyuan.alipayorderadmin.dao.PmsItemSkuDao;
 import com.shanyuan.alipayorderadmin.domain.AliImgResult;
 import com.shanyuan.alipayorderadmin.domain.AliItemParams;
-import com.shanyuan.alipayorderadmin.domain.AliSku;
-import com.shanyuan.alipayorderadmin.domain.Material;
 import com.shanyuan.alipayorderadmin.dto.AliImgParams;
 import com.shanyuan.alipayorderadmin.service.PmsItemService;
 import com.shanyuan.common.domain.PmsItemParams;
@@ -18,23 +16,17 @@ import com.shanyuan.common.enums.ExceptionEnum;
 import com.shanyuan.common.exception.DescribeException;
 import com.shanyuan.common.service.ItemService;
 import com.shanyuan.common.utils.HttpUtils;
-import com.shanyuan.common.utils.WebFileUtil;
 import com.shanyuan.mapper.PmsItemAttrValueMapper;
 import com.shanyuan.mapper.PmsItemMapper;
 import com.shanyuan.mapper.PmsItemSkuMapper;
 import com.shanyuan.model.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.entity.ContentType;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -182,14 +174,16 @@ public class PmsItemServiceImpl implements PmsItemService {
     public int deleteItem(List <Integer> ids) {
         PmsItemExample itemExample = new PmsItemExample();
         itemExample.createCriteria().andIdIn( ids );
-        return pmsItemMapper.deleteByExample( itemExample );
+        PmsItem item = new PmsItem();
+        item.setDeleteStatus( 1 );
+        return pmsItemMapper.updateByExampleSelective(item,itemExample );
     }
 
     @Override
     public PageInfo <PmsItem> listItem(Long brandId,Integer storeId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage( pageNum,pageSize );
         PmsItemExample itemExample = new PmsItemExample();
-        itemExample.createCriteria().andBrandIdEqualTo( brandId ).andStoreIdEqualTo( storeId );
+        itemExample.createCriteria().andBrandIdEqualTo( brandId ).andStoreIdEqualTo( storeId ).andDeleteStatusEqualTo( 0 );
         itemExample.setOrderByClause( "id" );
         List <PmsItem> pmsItems=pmsItemMapper.selectByExample( itemExample );
         PageInfo pageInfo = new PageInfo( pmsItems );

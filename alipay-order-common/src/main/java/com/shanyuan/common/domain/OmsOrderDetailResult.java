@@ -1,4 +1,4 @@
-package com.shanyuan.alipayorderadmin.dto;
+package com.shanyuan.common.domain;
 
 import com.shanyuan.model.OmsOrderDetail;
 import lombok.Data;

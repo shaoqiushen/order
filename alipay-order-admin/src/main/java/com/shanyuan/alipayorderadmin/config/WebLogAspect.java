@@ -39,7 +39,7 @@ public class WebLogAspect {
 //        if(!StringUtils.isEmpty( joinPoint.getArgs() )){
 //            log.info("Request Args   : {}", new Gson().toJson(joinPoint.getArgs()));
 //        }
-        log.info( "Request Args   : {}", new Gson().toJson( joinPoint.getArgs() ) );
+//        log.info( "Request Args   : {}", new Gson().toJson( joinPoint.getArgs() ) );
 
         ServletRequestAttributes attributes=( ServletRequestAttributes ) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request=attributes.getRequest();

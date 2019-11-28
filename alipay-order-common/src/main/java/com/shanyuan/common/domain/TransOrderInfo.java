@@ -1,4 +1,4 @@
-package com.shanyuan.alipayorderadmin.domain;
+package com.shanyuan.common.domain;
 
 import lombok.Data;
 

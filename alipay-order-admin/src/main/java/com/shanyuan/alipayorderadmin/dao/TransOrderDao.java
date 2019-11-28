@@ -1,7 +1,7 @@
 package com.shanyuan.alipayorderadmin.dao;
 
-import com.shanyuan.alipayorderadmin.domain.TransOrderInfo;
-import com.shanyuan.alipayorderadmin.dto.HomeTransactionChartParams;
+import com.shanyuan.common.domain.HomeTransactionChartParams;
+import com.shanyuan.common.domain.TransOrderInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

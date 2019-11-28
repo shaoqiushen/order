@@ -77,7 +77,6 @@ public class PortalPayServiceImpl implements PortalPayService {
     PortalSystemFeeService portalSystemFeeService;
 
 
-
     @Override
     public CommonResult payBuy(PortalPayParams params) {
         try {
@@ -109,7 +108,7 @@ public class PortalPayServiceImpl implements PortalPayService {
             tradeParams.setAppid( params.getAppid() );
 
             Integer payAmount=orderInfo.getPayAmount();
-            int eatAmount = 0;
+            int eatAmount=0;
 
             if (orderInfo.getOrderType() == 0) {
                 //配送到家
@@ -117,33 +116,33 @@ public class PortalPayServiceImpl implements PortalPayService {
                 tradeParams.setExtend_params( 000 );
                 //查询配送费用
                 Integer delivery=portalSystemFeeService.getDelivery( orderInfo.getBrandId(), orderInfo.getStoreId() );
-                delivery = delivery== null?0:delivery;
+                delivery=delivery == null ? 0 : delivery;
                 orderInfo.setFreightAmount( delivery );
                 //查询包装费用
                 Integer aPackage=portalSystemFeeService.getPackage( orderInfo.getBrandId(), orderInfo.getStoreId() );
-                aPackage = aPackage == null?0:aPackage;
+                aPackage=aPackage == null ? 0 : aPackage;
                 orderInfo.setPackageMoney( aPackage );
-                orderInfo.setTotalAmount( orderInfo.getTotalAmount()+delivery+aPackage );
-                orderInfo.setPayAmount( payAmount+delivery+aPackage );
+                orderInfo.setTotalAmount( orderInfo.getTotalAmount() + delivery + aPackage );
+                orderInfo.setPayAmount( payAmount + delivery + aPackage );
                 //重置为0
-                payAmount =0;
+                payAmount=0;
             } else if (orderInfo.getOrderType() == 1) {
                 //扫码点餐
                 tradeParams.setFood_order_type( "qr_order" );
                 tradeParams.setExtend_params( 101 );
                 Integer tableMoneyPer=portalSystemFeeService.getTableMoney( orderInfo.getBrandId(), orderInfo.getStoreId() );
-                tableMoneyPer = tableMoneyPer==null?0:tableMoneyPer;
-                if(tableMoneyPer != null){
+                tableMoneyPer=tableMoneyPer == null ? 0 : tableMoneyPer;
+                if (tableMoneyPer != null) {
                     eatAmount=tableMoneyPer * params.getEatPeopleAmount();
                     //重新设置订单价格
-                    orderInfo.setPayAmount( payAmount+ eatAmount);
+                    orderInfo.setPayAmount( payAmount + eatAmount );
                     //重置为0
-                    payAmount = 0;
-                    orderInfo.setTotalAmount( orderInfo.getTotalAmount()+eatAmount );
+                    payAmount=0;
+                    orderInfo.setTotalAmount( orderInfo.getTotalAmount() + eatAmount );
                     orderInfo.setEatPeopleAmount( params.getEatPeopleAmount() );
                     orderInfo.setTableMoney( eatAmount );
                     //重置为0
-                    eatAmount = 0;
+                    eatAmount=0;
                 }
 
             }
@@ -152,7 +151,7 @@ public class PortalPayServiceImpl implements PortalPayService {
             //最终需要支付的价格
             //单位元
             // 分----->>>>元
-            String totalAmount=String.valueOf( MathUtils.getTwoBitValue( String.valueOf( ( double )(orderInfo.getPayAmount())  / 100 ) ) );
+            String totalAmount=String.valueOf( MathUtils.getTwoBitValue( String.valueOf( ( double ) (orderInfo.getPayAmount()) / 100 ) ) );
             tradeParams.setTotal_amount( totalAmount );
             tradeParams.setStore_id( String.valueOf( orderInfo.getStoreId() ) );
             tradeParams.setType( 1 );
@@ -192,7 +191,7 @@ public class PortalPayServiceImpl implements PortalPayService {
     private void updatePayFlag(OmsOrder omsOrder) {
 //        OmsOrder omsOrder=new OmsOrder();
         omsOrder.setPayFlag( 1 );
-        omsOrder.setUpdateTime( new Date(  ) );
+        omsOrder.setUpdateTime( new Date() );
 //        omsOrder.setNotes( notes );
         OmsOrderExample example=new OmsOrderExample();
 //        example.createCriteria().andOrderIdEqualTo( orderId );
@@ -235,7 +234,9 @@ public class PortalPayServiceImpl implements PortalPayService {
                 omsOrder=omsOrders.get( 0 );
 
 //                }
-                mealNo=serialNumberService.generate( String.valueOf( omsOrder.getBrandId() ),String.valueOf( omsOrder.getStoreId() ) );
+
+                //生成顺序流水号
+                mealNo=serialNumberService.generate( String.valueOf( omsOrder.getBrandId() ), String.valueOf( omsOrder.getStoreId() ) );
                 OmsOrderDetailExample detailExample=new OmsOrderDetailExample();
                 detailExample.createCriteria().andOrderIdEqualTo( Long.parseLong( out_trade_no ) );
 
@@ -278,17 +279,9 @@ public class PortalPayServiceImpl implements PortalPayService {
                     extInfo2.setExt_value( "/pages/order/detail/detail?id=" + out_trade_no );
                     extInfoList1.add( extInfo2 );
                     sycnOrderParams.setExt_info( JSONObject.toJSONString( extInfoList1 ) );
-                    sycnOrderParams.setItem_order_list( JSONObject.toJSONString( itemOrderLists ) );
                     sycnOrderParams.setAppid( String.valueOf( omsOrder.getBrandId() ) );
                 }
-                //阿里订单同步
-                SycnOrderResponse sycnOrderResponse=syscronOrder( sycnOrderParams );
-                if (sycnOrderResponse.getStatus() == 1) {
-                    //同步成功
-                    omsOrder.setOrderSyncId( sycnOrderResponse.getData().getOrder_sync_id() );
-                }
-
-                omsOrder.setOrderStatus( 1 );//修改为已支付
+                omsOrder.setOrderStatus( 2 );//修改为已支付
                 omsOrder.setPaymentTime( new Date() );
                 omsOrder.setTradeNo( trade_no );
                 omsOrder.setMealNo( mealNo );
@@ -301,6 +294,20 @@ public class PortalPayServiceImpl implements PortalPayService {
                     repects.setAppid( String.valueOf( omsOrder.getBrandId() ) );
                     repects.setOrigin_id( out_trade_no );
                     printReceipts( repects, itemOrderLists, omsOrder );
+                }
+                //阿里订单同步
+                //移除sp属性
+                for (ItemOrderList orderListM : itemOrderLists) {
+                    orderListM.setSp1( null );
+                    orderListM.setSp2( null );
+                    orderListM.setSp3( null );
+                }
+                sycnOrderParams.setItem_order_list( JSONObject.toJSONString( itemOrderLists ) );
+                System.out.println( sycnOrderParams.getItem_order_list() );
+                SycnOrderResponse sycnOrderResponse=syscronOrder( sycnOrderParams );
+                if (sycnOrderResponse.getStatus() == 1) {
+                    //同步成功
+                    omsOrder.setOrderSyncId( sycnOrderResponse.getData().getOrder_sync_id() );
                 }
             }
             if (count < 1) {
@@ -321,7 +328,7 @@ public class PortalPayServiceImpl implements PortalPayService {
     }
 
     private void printReceipts(PrintRepects repects, List <ItemOrderList> itemOrderLists, OmsOrder omsOrder) {
-        String content="<FS2><center>**"+omsOrder.getStoreName()+"**</center></FS2>";
+        String content="<FS2><center>**" + omsOrder.getStoreName() + "**</center></FS2>";
         if (omsOrder.getOrderType() == 0) {
             //外卖配送
             content+="<FS><center>--外卖配送--</center></FS>";
@@ -339,7 +346,7 @@ public class PortalPayServiceImpl implements PortalPayService {
         }
         content+="<FS><center>--支付宝在线支付--</center></FS>\n";
         content+="................................\n";
-        content+="订单时间:" + MyDateUtil.DateTransToString( omsOrder.getCreateTime() ) + "\n";
+        content+="订单时间:" + MyDateUtil.dateTransToString( omsOrder.getCreateTime() ) + "\n";
         content+="订单编号:" + omsOrder.getOrderId() + "\n";
         content+="**************商品**************\n";
         content+="<table>";

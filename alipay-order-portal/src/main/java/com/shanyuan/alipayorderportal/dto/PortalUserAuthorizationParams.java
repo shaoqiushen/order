@@ -23,8 +23,7 @@ public class PortalUserAuthorizationParams {
     @ApiModelProperty(value="用户头像",required=true)
     @NotEmpty(message="用户头像不允许为空")
     private String avatar;
-    @ApiModelProperty(value="用户昵称",required=true)
-    @NotEmpty(message="昵称不允许为空")
+    @ApiModelProperty(value="用户昵称")
     private String nickName;
     @ApiModelProperty(value="性别，男对应m，女对应f",required=true)
     private String gender;

@@ -7,8 +7,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -74,6 +81,20 @@ public class AlipayOrderPortalApplicationTests {
         System.out.println( "Aa".hashCode() == "BB".hashCode() );
 
         //hashcode相同， 值不一定相等， 值相等，则hashcode一定相等
+        List list = new ArrayList(  );
+        list.add( "s" );
+        list.add( "b" );
+        String[] values =( String[] ) list.toArray(new String[0]);
+        String[] objects=( String[] ) list.toArray( new String[list.size()] );
+        List list1 = new LinkedList(  );
+        list.removeIf( e -> e == null );
+        Timer t = new Timer(1000, e-> System.out.println(e));
+        t.start();
+
+
+        ActionListener listener =event -> {
+            System.out.println(  );
+        };
     }
 
 

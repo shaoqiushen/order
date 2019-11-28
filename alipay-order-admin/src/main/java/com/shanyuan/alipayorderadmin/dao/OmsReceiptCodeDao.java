@@ -1,5 +1,7 @@
 package com.shanyuan.alipayorderadmin.dao;
 
+import com.shanyuan.alipayorderadmin.dto.BrandStoreParams;
+import com.shanyuan.alipayorderadmin.dto.CmsReceiptCodeRes;
 import com.shanyuan.alipayorderadmin.dto.OmsReceiptCodeResult;
 import com.shanyuan.alipayorderadmin.dto.OmsReceiptQueryParams;
 import org.apache.ibatis.annotations.Param;
@@ -15,4 +17,6 @@ import java.util.List;
  **/
 public interface OmsReceiptCodeDao {
     List<OmsReceiptCodeResult> listReceiptCode(@Param( "params" ) OmsReceiptQueryParams params);
+
+
 }

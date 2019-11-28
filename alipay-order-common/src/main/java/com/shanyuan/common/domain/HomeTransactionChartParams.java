@@ -1,4 +1,4 @@
-package com.shanyuan.alipayorderadmin.dto;
+package com.shanyuan.common.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,6 +14,9 @@ import lombok.Data;
 @Data
 @ApiModel
 public class HomeTransactionChartParams {
+
+    @ApiModelProperty("品牌id")
+    private Long brandId;
     @ApiModelProperty(value="店铺id")
     private Integer storeId;
     @ApiModelProperty(value="开启时间",required=true,example="2019-10-22")

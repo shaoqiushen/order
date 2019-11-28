@@ -1,6 +1,7 @@
 package com.shanyuan.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class UmsRole implements Serializable {
     private Integer id;
@@ -32,6 +33,27 @@ public class UmsRole implements Serializable {
      * @mbggenerated
      */
     private String permission;
+
+    /**
+     * 店铺名称
+     *
+     * @mbggenerated
+     */
+    private String storeName;
+
+    /**
+     * 创建时间
+     *
+     * @mbggenerated
+     */
+    private Date createTime;
+
+    /**
+     * 修改时间
+     *
+     * @mbggenerated
+     */
+    private Date updateTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -75,6 +97,30 @@ public class UmsRole implements Serializable {
         this.permission = permission;
     }
 
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -86,6 +132,9 @@ public class UmsRole implements Serializable {
         sb.append(", brandId=").append(brandId);
         sb.append(", storeId=").append(storeId);
         sb.append(", permission=").append(permission);
+        sb.append(", storeName=").append(storeName);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", updateTime=").append(updateTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

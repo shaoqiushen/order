@@ -2,8 +2,8 @@ package com.shanyuan.alipayorderadmin.service;
 
 import com.github.pagehelper.PageInfo;
 import com.shanyuan.alipayorderadmin.dto.HomeDateSummaryResult;
-import com.shanyuan.alipayorderadmin.dto.HomeTransactionChartParams;
 import com.shanyuan.alipayorderadmin.dto.HomeTransactionChartResult;
+import com.shanyuan.common.domain.HomeTransactionChartParams;
 import com.shanyuan.model.OmsOrder;
 
 

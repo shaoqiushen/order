@@ -26,5 +26,7 @@ public class UmsOperParams {
     @ApiModelProperty(value="密码",required=true)
     @NotEmpty(message="密码不允许为空")
     private String password;
+    @ApiModelProperty(value="角色id",required=true)
+    private Integer roleId;
 
 }

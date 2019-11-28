@@ -1,11 +1,10 @@
 package com.shanyuan.alipayorderadmin.service;
 
 import com.github.pagehelper.PageInfo;
-import com.shanyuan.alipayorderadmin.dto.OmsOrderDetailResult;
-import com.shanyuan.alipayorderadmin.dto.OmsOrderQueryParams;
 import com.shanyuan.common.domain.CommonResult;
+import com.shanyuan.common.domain.OmsOrderDetailResult;
+import com.shanyuan.common.domain.OmsOrderQueryParams;
 import com.shanyuan.model.OmsOrder;
-import com.shanyuan.model.OmsOrderDetail;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

@@ -1,10 +1,7 @@
 package com.shanyuan.alipayorderadmin.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.shanyuan.alipayorderadmin.dto.CmsReceiptCodeParams;
-import com.shanyuan.alipayorderadmin.dto.CmsReceiptCodeResult;
-import com.shanyuan.alipayorderadmin.dto.OmsReceiptCodeResult;
-import com.shanyuan.alipayorderadmin.dto.OmsReceiptQueryParams;
+import com.shanyuan.alipayorderadmin.dto.*;
 import com.shanyuan.alipayorderadmin.service.OmsReceiptCodeService;
 import com.shanyuan.common.domain.CommonResult;
 import com.shanyuan.common.utils.ResultUtil;
@@ -54,6 +51,8 @@ public class OmsReceiptCodeController {
 //        return new CommonResult().pageSuccess( pageInfo );
 //    }
 
+
+
     @ApiOperation( "添加收款码" )
     @PostMapping("/createReceiptCode")
     public CommonResult createReceiptCode(@Validated @RequestBody CmsReceiptCodeParams params,BindingResult bindingResult){
@@ -78,5 +77,13 @@ public class OmsReceiptCodeController {
     public CommonResult deleteReceiptCode(@PathVariable Integer id){
         int count=omsReceiptCodeService.deleteReceiptCode( id );
         return ResultUtil.result( count );
+    }
+
+    @ApiOperation( "根据参数查询收款码列表" )
+    @PostMapping("/listReceiptCodeByParams")
+    public CommonResult listReceiptCodeByParams(@Validated @RequestBody BrandStoreParams params,BindingResult bindingResult,
+                                                @RequestParam(defaultValue="1")Integer pageNum,@RequestParam(defaultValue="10")Integer pageSize){
+        PageInfo <CmsReceiptCodeRes> pageInfo=omsReceiptCodeService.listReceiptCodeByParams( params, pageNum, pageSize );
+        return new CommonResult().pageSuccess( pageInfo );
     }
 }

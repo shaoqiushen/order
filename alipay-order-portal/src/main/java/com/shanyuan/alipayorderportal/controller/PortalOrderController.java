@@ -100,5 +100,12 @@ public class PortalOrderController {
         return new CommonResult().success( map );
     }
 
+    @ApiOperation("取消订单")
+    @PostMapping("/cancelOrder")
+    public CommonResult cancelOrder(@RequestParam Long orderId){
+        int count=portalOrderService.cancelOrder( orderId );
+        return ResultUtil.result( count );
+    }
+
 
 }

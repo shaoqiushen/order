@@ -1,4 +1,4 @@
-package com.shanyuan.alipayorderadmin.dto;
+package com.shanyuan.common.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

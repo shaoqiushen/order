@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shanyuan.alipayorderinternal.dao.InternalStaffDao">
+
+    <select id="listStaff" resultType="com.shanyuan.alipayorderinternal.dto.InternalStaffResult">
+        select a.* ,b.store_name storeName,b.sign_time signTime
+
+        from mys_staff a
+        left join mys_store b
+        on a.id = b.staff_id
+        where 1=1
+        <if test="params.storeName != null and params.storeName!=''">
+            and b.store_name like '%${params.storeName}%'
+        </if>
+        <if test="params.staffName != null and params.staffName!=''">
+            and a.staff_name like '%${params.staffName}%'
+        </if>
+        order by a.id
+    </select>
+
+
+</mapper>

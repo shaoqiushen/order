@@ -11,4 +11,16 @@
       where a.store_id=#{storeId}
       order by a.desk_no asc
   </select>
+
+
+    <select id="listReceiptCodeByParams" resultType="com.shanyuan.alipayorderadmin.dto.CmsReceiptCodeRes">
+        select (select count(*) from cms_receipt_code where store_id = a.id)codeAmount, a.store_name storeName,a.id storeId
+        from cms_store a
+
+        where
+        a.brand_id=#{params.brandId}
+        <if test="params.storeId != null">
+            and a.id=#{params.storeId}
+        </if>
+    </select>
 </mapper>

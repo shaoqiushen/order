@@ -5,10 +5,8 @@ import com.shanyuan.common.domain.CommonResult;
 import com.shanyuan.common.enums.ExceptionEnum;
 import com.shanyuan.mapper.CmsStoreMapper;
 import com.shanyuan.mapper.UmsOperMapper;
-import com.shanyuan.model.CmsStore;
-import com.shanyuan.model.CmsStoreExample;
-import com.shanyuan.model.UmsOper;
-import com.shanyuan.model.UmsOperExample;
+import com.shanyuan.mapper.UmsRoleMapper;
+import com.shanyuan.model.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -36,6 +34,9 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     CmsStoreMapper cmsStoreMapper;
 
+    @Autowired
+    UmsRoleMapper umsRoleMapper;
+
     @Override
     public CommonResult login(String account, String password) {
         Subject subject = SecurityUtils.getSubject();
@@ -50,20 +51,26 @@ public class LoginServiceImpl implements LoginService {
         Long brandId=null;
         Integer storeId=null;
         int type=0;//0超级管理员;//1普通管理员
+        String permission = "";
         UmsOperExample operExample=new UmsOperExample();
         operExample.createCriteria().andAccountEqualTo( account ).andPasswordEqualTo( password );
         List <UmsOper> umsOpers=umsOperMapper.selectByExample( operExample );
         if (umsOpers.size() == 0) {
             return new CommonResult().failed( "账号或密码不正确" );
         } else {
-            brandId=umsOpers.get( 0 ).getBrandId();
-            storeId=umsOpers.get( 0 ).getStoreId();
-            type=umsOpers.get( 0 ).getType();
+            UmsOper umsOper=umsOpers.get( 0 );
+            brandId=umsOper.getBrandId();
+            storeId=umsOper.getStoreId();
+            type=umsOper.getType();
+            Integer roleId=umsOper.getRoleId();
+            UmsRole umsRole=umsRoleMapper.selectByPrimaryKey( roleId );
+            permission = umsRole.getPermission();
         }
         Map map=new HashMap();
         map.put( "brandId", brandId );
         map.put( "storeId", storeId );
         map.put( "type", type );
+        map.put( "permission",permission );
         return new CommonResult().success( map );
     }
 }

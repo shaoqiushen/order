@@ -4,10 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shanyuan.alipayorderadmin.dao.CmsReceiptCodeDao;
 import com.shanyuan.alipayorderadmin.dao.OmsReceiptCodeDao;
-import com.shanyuan.alipayorderadmin.dto.CmsReceiptCodeParams;
-import com.shanyuan.alipayorderadmin.dto.CmsReceiptCodeResult;
-import com.shanyuan.alipayorderadmin.dto.OmsReceiptCodeResult;
-import com.shanyuan.alipayorderadmin.dto.OmsReceiptQueryParams;
+import com.shanyuan.alipayorderadmin.dto.*;
 import com.shanyuan.alipayorderadmin.service.OmsReceiptCodeService;
 import com.shanyuan.common.domain.CommonResult;
 import com.shanyuan.common.utils.ResultUtil;
@@ -69,7 +66,7 @@ public class OmsReceiptCodeServiceImpl implements OmsReceiptCodeService {
 
     @Override
     public CommonResult createReceiptCode(CmsReceiptCodeParams params) {
-        //查询桌号是否存在,且本身不是本身
+        //查询桌号是否存在,且不是本身
         if(checkDeskNoExist(0,params.getDeskNo(),params.getStoreId())){
             return new CommonResult().failed( "编号已经存在" );
         }
@@ -82,7 +79,7 @@ public class OmsReceiptCodeServiceImpl implements OmsReceiptCodeService {
 
     @Override
     public CommonResult updateReceiptCode(Integer id, CmsReceiptCodeParams params) {
-        //查询桌号是否存在,且本身不是本身
+        //查询桌号是否存在,且不是本身
         if(checkDeskNoExist(id,params.getDeskNo(),params.getStoreId())){
             return new CommonResult().failed( "编号已经存在" );
         }
@@ -142,6 +139,14 @@ public class OmsReceiptCodeServiceImpl implements OmsReceiptCodeService {
             criteria.andStoreIdEqualTo( storeId );
         }
         return cmsReceiptCodeMapper.countByExample( example );
+    }
+
+    @Override
+    public PageInfo <CmsReceiptCodeRes> listReceiptCodeByParams(BrandStoreParams params, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage( pageNum,pageSize );
+        List <CmsReceiptCodeRes> cmsReceiptCodeRes=cmsReceiptCodeDao.listReceiptCodeByParams( params );
+        PageInfo<CmsReceiptCodeRes> pageInfo = new PageInfo <>( cmsReceiptCodeRes );
+        return pageInfo;
     }
 
     private Boolean checkDeskNoExist(Integer id,String deskNo,Integer storeId){

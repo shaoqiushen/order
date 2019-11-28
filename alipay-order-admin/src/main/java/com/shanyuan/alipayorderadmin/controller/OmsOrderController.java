@@ -1,10 +1,10 @@
 package com.shanyuan.alipayorderadmin.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.shanyuan.alipayorderadmin.dto.OmsOrderDetailResult;
-import com.shanyuan.alipayorderadmin.dto.OmsOrderQueryParams;
 import com.shanyuan.alipayorderadmin.service.OmsOrderService;
 import com.shanyuan.common.domain.CommonResult;
+import com.shanyuan.common.domain.OmsOrderDetailResult;
+import com.shanyuan.common.domain.OmsOrderQueryParams;
 import com.shanyuan.common.utils.ResultUtil;
 import com.shanyuan.model.OmsOrder;
 import io.swagger.annotations.Api;
@@ -33,7 +33,7 @@ public class OmsOrderController {
 
     @ApiOperation( "查询订单" )
     @PostMapping("/listOrder")
-    public CommonResult listOrder(@RequestParam(defaultValue="1")Integer pageNum,@RequestParam(defaultValue="10")Integer pageSize, @Validated @RequestBody OmsOrderQueryParams params, BindingResult bindingResult){
+    public CommonResult listOrder(@RequestParam(defaultValue="1")Integer pageNum, @RequestParam(defaultValue="10")Integer pageSize, @Validated @RequestBody OmsOrderQueryParams params, BindingResult bindingResult){
         PageInfo <OmsOrder> pageInfo=omsOrderService.listOrder( pageNum, pageSize, params );
         return new CommonResult().pageSuccess( pageInfo );
     }

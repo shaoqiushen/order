@@ -1,5 +1,6 @@
 package com.shanyuan.alipayorderportal.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shanyuan.alipayorderportal.dao.PortalOrderDao;
@@ -15,6 +16,7 @@ import com.shanyuan.common.domain.CommonResult;
 import com.shanyuan.common.enums.ExceptionEnum;
 import com.shanyuan.common.exception.DescribeException;
 import com.shanyuan.common.factory.SnowFlakeFactory;
+import com.shanyuan.common.redis.RedisOperator;
 import com.shanyuan.common.utils.DelayUtil;
 import com.shanyuan.mapper.OmsOrderDetailMapper;
 import com.shanyuan.mapper.OmsOrderMapper;
@@ -62,15 +64,34 @@ public class PortalOrderServiceImpl implements PortalOrderService {
     @Autowired
     PortalStoreService portalStoreService;
 
+    @Autowired
+    RedisOperator redisOperator;
+
+
+    private static final String USER_IDX = "user:id:";
+
 
     @Override
     public CommonResult create(PortalOrderParams params) {
         try {
 //            List <OmsCart> cartInfo=portalCartService.getCartInfo( params.getStoreId(), params.getUserId() );
-            UmsUser userInfo=portalUserService.getUserInfo( params.getUserId() );
-            if (userInfo == null) {
-                return new CommonResult().error( ExceptionEnum.USER_NOT_EXISTS );
+            String key = USER_IDX+ params.getBrandId();
+            UmsUser userInfo = new UmsUser();
+            if(redisOperator.exists( key )){
+                Object o=redisOperator.get( key );
+                if(!StringUtils.isEmpty( o )){
+                    userInfo=JSONObject.parseObject( ( String ) o, UmsUser.class );
+                }
+            }else {
+                userInfo=portalUserService.getUserInfo( params.getUserId() );
+                if (userInfo == null) {
+                    return new CommonResult().error( ExceptionEnum.USER_NOT_EXISTS );
+                }else {
+                    redisOperator.set( key, JSONObject.toJSONString( userInfo ),3600 );
+                }
             }
+
+
             if (params.getCartParamList().size() == 0) {
                 return new CommonResult().failed( "购物车不允许为空" );
             }
@@ -94,7 +115,7 @@ public class PortalOrderServiceImpl implements PortalOrderService {
                 one:
                 for (CartParam cart : params.getCartParamList()) {
                     for (PmsItemSku sku : skuInfo) {
-                        if (cart.getSkuId() == sku.getId()) {
+                        if (cart.getSkuId().equals( sku.getId() )) {
                             totalAmount+=sku.getPrice() * cart.getBuyCount();
                             OmsOrderDetail orderDetail=new OmsOrderDetail();
                             orderDetail.setSp3( sku.getSp3() );
@@ -239,6 +260,16 @@ public class PortalOrderServiceImpl implements PortalOrderService {
         return portalOrderQueryResultPageInfo;
     }
 
+    @Override
+    public int cancelOrder(Long orderId) {
+        OmsOrderExample example = new OmsOrderExample();
+        example.createCriteria().andOrderIdEqualTo( orderId );
+        OmsOrder omsOrder = new OmsOrder();
+        omsOrder.setOrderStatus( 7 );//取消状态
+        omsOrder.setUpdateTime( new Date(  ) );
+        omsOrder.setCancelDesc( "用户自行取消" );
+        return omsOrderMapper.updateByExampleSelective( omsOrder,example );
+    }
 
 
 }

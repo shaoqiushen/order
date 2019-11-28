@@ -2,6 +2,7 @@ package com.shanyuan.alipayorderadmin.service;
 
 import com.github.pagehelper.PageInfo;
 import com.shanyuan.alipayorderadmin.dto.UmsRoleParams;
+import com.shanyuan.alipayorderadmin.dto.UmsRoleResult;
 import com.shanyuan.model.UmsRole;
 
 /**
@@ -19,5 +20,5 @@ public interface UmsRoleService {
     //修改角色
     int update(Integer id, UmsRoleParams params);
     //角色列表
-    PageInfo<UmsRole> list(Long brandId, Integer storeId, Integer pageNum, Integer pageSize);
+    PageInfo<UmsRoleResult> list(Long brandId, Integer storeId, Integer pageNum, Integer pageSize);
 }

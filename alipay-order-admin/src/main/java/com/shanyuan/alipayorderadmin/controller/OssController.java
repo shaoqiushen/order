@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class OssController {
 
     @ApiOperation( "图片上传" )
     @PostMapping("/uploadImg")
-    public CommonResult uploadImg(MultipartFile file){
+    public CommonResult uploadImg(MultipartFile file, HttpServletRequest request){
         String filePath=uploadService.uploadImg( file );
         Map<String,String> result = new HashMap<>(  );
         result.put( "filePath",filePath );

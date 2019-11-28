@@ -1,28 +1,26 @@
 package com.shanyuan.alipayorderadmin.service.impl;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shanyuan.alipayorderadmin.dao.OmsOrderDao;
 import com.shanyuan.alipayorderadmin.domain.OrderRefund;
 import com.shanyuan.alipayorderadmin.domain.ServerRefundResponse;
-import com.shanyuan.alipayorderadmin.dto.OmsOrderDetailResult;
-import com.shanyuan.alipayorderadmin.dto.OmsOrderQueryParams;
 import com.shanyuan.alipayorderadmin.service.OmsOrderService;
 import com.shanyuan.alipayorderadmin.service.RefundService;
+import com.shanyuan.common.dao.OrderDao;
 import com.shanyuan.common.domain.CommonResult;
+import com.shanyuan.common.domain.OmsOrderDetailResult;
+import com.shanyuan.common.domain.OmsOrderQueryParams;
+import com.shanyuan.common.service.OrderService;
 import com.shanyuan.common.utils.MathUtils;
-import com.shanyuan.common.utils.MyDateUtil;
 import com.shanyuan.common.utils.ResultUtil;
 import com.shanyuan.mapper.OmsOrderDetailMapper;
 import com.shanyuan.mapper.OmsOrderMapper;
 import com.shanyuan.model.OmsOrder;
 import com.shanyuan.model.OmsOrderDetail;
 import com.shanyuan.model.OmsOrderDetailExample;
-import com.shanyuan.model.OmsOrderExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -49,39 +47,22 @@ public class OmsOrderServiceImpl implements OmsOrderService {
     @Autowired
     RefundService refundService;
 
+    @Autowired
+    OrderService orderService;
+
+    @Autowired
+    OrderDao orderDao;
+
     @Override
     public PageInfo <OmsOrder> listOrder(Integer pageNum, Integer pageSize, OmsOrderQueryParams params) {
-        PageHelper.startPage( pageNum, pageSize );
-        OmsOrderExample example=new OmsOrderExample();
-        example.setOrderByClause( "id desc" );
-        OmsOrderExample.Criteria criteria=example.createCriteria();
-        if (params.getOrderId() != null) {
-            criteria.andOrderIdEqualTo( params.getOrderId() );
-        }
-        if (!StringUtils.isEmpty( params.getStartTime() )) {
-            criteria.andCreateTimeGreaterThanOrEqualTo( MyDateUtil.StringTransToDate( params.getStartTime() + " 00:00:00" ) );
-        }
-        if (!StringUtils.isEmpty( params.getEndTime() )) {
-            criteria.andCreateTimeLessThanOrEqualTo( MyDateUtil.StringTransToDate( params.getEndTime() + " 23:59:59" ) );
-        }
-        if(params.getOrderStatus() != null){
-            criteria.andOrderStatusEqualTo( params.getOrderStatus() );
-        }
-        if(params.getStoreId() != null){
-            criteria.andStoreIdEqualTo( params.getStoreId() );
-        }
-        criteria.andOrderTypeEqualTo( params.getOrderType() );
-        criteria.andBrandIdEqualTo( params.getBrandId() );
-        criteria.andDeleteStatusEqualTo( 0 );
-        List <OmsOrder> omsOrders=omsOrderMapper.selectByExample( example );
+        List <OmsOrder> omsOrders=orderService.listOrder( pageNum, pageSize, params );
         PageInfo <OmsOrder> pageInfo=new PageInfo <>( omsOrders );
         return pageInfo;
     }
 
     @Override
     public List <OmsOrderDetailResult> listOrderDetail(Long orderId) {
-        List <OmsOrderDetailResult> omsOrderDetailResults=omsOrderDao.listOrderDetail( orderId );
-
+        List <OmsOrderDetailResult> omsOrderDetailResults=orderDao.listOrderDetail( orderId );
         return omsOrderDetailResults;
     }
 

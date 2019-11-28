@@ -88,9 +88,17 @@ public class SystemFeeSettingServiceImpl implements SystemFeeSettingService {
         cmsDelivery.setEnableStatus( enableStatus );
         if(enableStatus == 1){
             //说明要修改为启用状态//若系统中已存在 启用的数据//则修改失败
+
             CmsDelivery cmsDeliveryInfo=cmsDeliveryMapper.selectByPrimaryKey( id );
-            if(cmsDeliveryInfo != null){
-                return new CommonResult().failed( "系统中已存在启用的数据" );
+            if(cmsDeliveryInfo != null ){
+                CmsDeliveryExample example = new CmsDeliveryExample();
+                example.createCriteria().andBrandIdEqualTo( cmsDeliveryInfo.getBrandId() )
+                        .andStoreIdEqualTo( cmsDeliveryInfo.getStoreId() )
+                        .andEnableStatusEqualTo( 1 );
+                List <CmsDelivery> cmsDeliveries=cmsDeliveryMapper.selectByExample( example );
+                if(cmsDeliveries.size()>0){
+                    return new CommonResult().failed( "系统中已存在启用的数据" );
+                }
             }
         }
         cmsDelivery.setUpdateTime( new Date(  ) );
@@ -164,8 +172,15 @@ public class SystemFeeSettingServiceImpl implements SystemFeeSettingService {
         if(enableStatus == 1){
             //说明要修改为启用状态//若系统中已存在 启用的数据//则修改失败
             CmsPackage cmsPackageInfo=cmsPackageMapper.selectByPrimaryKey( id );
-            if(cmsPackageInfo != null){
-                return new CommonResult().failed( "系统中已存在启用的数据" );
+            if(cmsPackageInfo != null ){
+                CmsPackageExample example = new CmsPackageExample();
+                example.createCriteria().andBrandIdEqualTo( cmsPackageInfo.getBrandId() )
+                        .andStoreIdEqualTo( cmsPackageInfo.getStoreId() )
+                        .andEnableStatusEqualTo( 1 );
+                List <CmsPackage> cmsPackages=cmsPackageMapper.selectByExample( example );
+                if(cmsPackages.size()>0){
+                    return new CommonResult().failed( "系统中已存在启用的数据" );
+                }
             }
         }
         cmsPackage.setUpdateTime( new Date(  ) );

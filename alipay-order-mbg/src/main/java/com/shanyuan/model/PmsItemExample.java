@@ -1474,6 +1474,126 @@ public class PmsItemExample {
             addCriterion("ext_info not between", value1, value2, "extInfo");
             return (Criteria) this;
         }
+
+        public Criteria andSaleAmountIsNull() {
+            addCriterion("sale_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleAmountIsNotNull() {
+            addCriterion("sale_amount is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleAmountEqualTo(Integer value) {
+            addCriterion("sale_amount =", value, "saleAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleAmountNotEqualTo(Integer value) {
+            addCriterion("sale_amount <>", value, "saleAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleAmountGreaterThan(Integer value) {
+            addCriterion("sale_amount >", value, "saleAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleAmountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sale_amount >=", value, "saleAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleAmountLessThan(Integer value) {
+            addCriterion("sale_amount <", value, "saleAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleAmountLessThanOrEqualTo(Integer value) {
+            addCriterion("sale_amount <=", value, "saleAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleAmountIn(List<Integer> values) {
+            addCriterion("sale_amount in", values, "saleAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleAmountNotIn(List<Integer> values) {
+            addCriterion("sale_amount not in", values, "saleAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleAmountBetween(Integer value1, Integer value2) {
+            addCriterion("sale_amount between", value1, value2, "saleAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSaleAmountNotBetween(Integer value1, Integer value2) {
+            addCriterion("sale_amount not between", value1, value2, "saleAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteStatusIsNull() {
+            addCriterion("delete_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteStatusIsNotNull() {
+            addCriterion("delete_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteStatusEqualTo(Integer value) {
+            addCriterion("delete_status =", value, "deleteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteStatusNotEqualTo(Integer value) {
+            addCriterion("delete_status <>", value, "deleteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteStatusGreaterThan(Integer value) {
+            addCriterion("delete_status >", value, "deleteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("delete_status >=", value, "deleteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteStatusLessThan(Integer value) {
+            addCriterion("delete_status <", value, "deleteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("delete_status <=", value, "deleteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteStatusIn(List<Integer> values) {
+            addCriterion("delete_status in", values, "deleteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteStatusNotIn(List<Integer> values) {
+            addCriterion("delete_status not in", values, "deleteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteStatusBetween(Integer value1, Integer value2) {
+            addCriterion("delete_status between", value1, value2, "deleteStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("delete_status not between", value1, value2, "deleteStatus");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

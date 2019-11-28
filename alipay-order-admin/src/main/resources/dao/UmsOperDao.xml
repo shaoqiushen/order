@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shanyuan.alipayorderadmin.dao.UmsOperDao">
+
+    <resultMap id="baseMap" type="com.shanyuan.alipayorderadmin.dto.UmsOperResult" extends="com.shanyuan.mapper.UmsOperMapper.BaseResultMap">
+        <result column="name" property="roleName" jdbcType="VARCHAR"></result>
+        <result column="store_name" property="storeName" jdbcType="VARCHAR"></result>
+
+    </resultMap>
+   <select id="listSubOper" resultMap="baseMap">
+       select a.* ,
+       b.name,
+       c.store_name
+
+       from ums_oper  a
+       left join ums_role b
+       on a.role_id = b.id
+       left join cms_store c
+       on b.store_id=c.id
+       where
+       a.brand_id = #{params.brandId}
+       <if test="params.storeId != null">
+           and a.store_id = #{params.storeId}
+       </if>
+       order by a.id
+   </select>
+</mapper>

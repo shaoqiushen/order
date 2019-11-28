@@ -106,7 +106,7 @@ public class PortalItemServiceImpl implements PortalItemService {
         PageHelper.startPage( pageNum,pageSize );
         PmsItemExample example = new PmsItemExample();
         PmsItemExample.Criteria criteria=example.createCriteria();
-        criteria.andBrandIdEqualTo( params.getBrandId() ).andStoreIdEqualTo( params.getStoreId() );
+        criteria.andBrandIdEqualTo( params.getBrandId() ).andStoreIdEqualTo( params.getStoreId() ).andDeleteStatusEqualTo( 0 );
         if(!StringUtils.isEmpty( params.getKeywords() )){
             criteria.andItemNameLike( "%"+params.getKeywords()+"%" );
         }

@@ -31,7 +31,9 @@ public class CarouselServiceImpl implements CarouselService {
         CmsCarouselExample.Criteria criteria=cmsCarouselExample.createCriteria();
         criteria.andBrandIdEqualTo( brandId );
         if (position == -1) {
-            //则是后台查询,需查全部//不做条件控制
+            //则是后台查询,
+            if(storeId != null){
+             }
         } else {
             if(position == 0){
                 //查小程序首页轮播图不传店铺id

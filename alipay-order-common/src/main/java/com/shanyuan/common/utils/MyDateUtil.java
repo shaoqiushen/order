@@ -29,7 +29,7 @@ public class MyDateUtil {
      * param:
      * return:
      **/
-    public static Date StringTransToDate(String time) {
+    public static Date stringTransToDate(String time) {
         SimpleDateFormat dateFormat=new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
         Date parse=null;
         try {
@@ -41,7 +41,7 @@ public class MyDateUtil {
     }
 
     //Date 转String
-    public static String DateTransToString(Date date) {
+    public static String dateTransToString(Date date) {
         SimpleDateFormat formatter=new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
         String dateString=formatter.format( date );
         return dateString;

@@ -1,6 +1,6 @@
 package com.shanyuan.alipayorderadmin.dto;
 
-import com.shanyuan.alipayorderadmin.domain.TransOrderInfo;
+import com.shanyuan.common.domain.TransOrderInfo;
 import lombok.Data;
 
 import java.util.List;

@@ -3,13 +3,13 @@ package com.shanyuan.alipayorderadmin.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shanyuan.alipayorderadmin.dao.TransOrderDao;
-import com.shanyuan.alipayorderadmin.domain.TransOrderInfo;
 import com.shanyuan.alipayorderadmin.dto.HomeDateSummaryResult;
-import com.shanyuan.alipayorderadmin.dto.HomeTransactionChartParams;
 import com.shanyuan.alipayorderadmin.dto.HomeTransactionChartResult;
 import com.shanyuan.alipayorderadmin.service.CmsStoreService;
 import com.shanyuan.alipayorderadmin.service.HomeService;
 import com.shanyuan.alipayorderadmin.service.OmsReceiptCodeService;
+import com.shanyuan.common.domain.HomeTransactionChartParams;
+import com.shanyuan.common.domain.TransOrderInfo;
 import com.shanyuan.common.utils.MyDateUtil;
 import com.shanyuan.mapper.OmsOrderMapper;
 import com.shanyuan.model.OmsOrder;
@@ -126,8 +126,8 @@ public class HomeServiceImpl implements HomeService {
         OmsOrderExample example=new OmsOrderExample();
         OmsOrderExample.Criteria criteria=example.createCriteria();
         criteria.andBrandIdEqualTo( brandId ).
-                andPaymentTimeGreaterThanOrEqualTo( MyDateUtil.StringTransToDate( startTime ) ).
-                andPaymentTimeLessThanOrEqualTo( MyDateUtil.StringTransToDate(endTime) );
+                andPaymentTimeGreaterThanOrEqualTo( MyDateUtil.stringTransToDate( startTime ) ).
+                andPaymentTimeLessThanOrEqualTo( MyDateUtil.stringTransToDate(endTime) );
         if(storeId != -1){
             criteria.andStoreIdEqualTo( storeId );
         }
@@ -144,7 +144,7 @@ public class HomeServiceImpl implements HomeService {
         return map;
     }
 
-    private List<TransOrderInfo> getTransOrderInfo(Long brandId,HomeTransactionChartParams params){
+    private List<TransOrderInfo> getTransOrderInfo(Long brandId, HomeTransactionChartParams params){
         params.setStartTime( params.getStartTime()+" 00:00:00" );
         params.setEndTime( params.getEndTime()+" 23:59:59" );
         List <TransOrderInfo> transOrderInfo=transOrderDao.getTransOrderInfo( brandId, params );

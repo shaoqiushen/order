@@ -14,8 +14,8 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @SpringBootApplication
-@MapperScan({"com.shanyuan.mapper","com.shanyuan.alipayorderadmin.dao"})
-@ComponentScan({"com.shanyuan"})
+@MapperScan({"com.shanyuan.mapper","com.shanyuan.alipayorderadmin.dao","com.shanyuan.common.dao"})
+@ComponentScan({"com.shanyuan","com.shanyuan.common"})
 @EnableTransactionManagement
 @EnableAutoConfiguration(exclude = {MultipartAutoConfiguration.class})
 public class AlipayOrderAdminApplication extends SpringBootServletInitializer {

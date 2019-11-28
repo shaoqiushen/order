@@ -47,7 +47,7 @@ public class ItemServiceImpl implements ItemService {
             PageHelper.startPage( pageNum,pageSize );
         }
         PmsItemCategoryExample categoryExample = new PmsItemCategoryExample();
-        categoryExample.setOrderByClause( "sort asc,id asc" );
+        categoryExample.setOrderByClause( "id asc" );
         categoryExample.createCriteria().andBrandIdEqualTo( brandId ).andStoreIdEqualTo( storeId );
         return pmsItemCategoryMapper.selectByExample( categoryExample );
     }
@@ -57,7 +57,7 @@ public class ItemServiceImpl implements ItemService {
         PageHelper.startPage( pageNum,pageSize );
         PmsItemExample itemExample = new PmsItemExample();
         itemExample.setOrderByClause( "id" );
-        itemExample.createCriteria().andPublishStatusEqualTo( 1 ).andItemCategoryIdEqualTo( itemCategoryId );
+        itemExample.createCriteria().andPublishStatusEqualTo( 1 ).andItemCategoryIdEqualTo( itemCategoryId ).andDeleteStatusEqualTo( 0 );
         return pmsItemMapper.selectByExample( itemExample );
     }
 

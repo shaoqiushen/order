@@ -30,7 +30,7 @@ public class PmsItemAttrCategoryController {
     PmsItemAttrCategoryService pmsItemAttrCategoryService;
 
     @ApiOperation( "创建产品属性目录" )
-    @PostMapping("create")
+    @PostMapping("/create")
     public CommonResult create(@Validated @RequestBody PmsItemAttrCategoryParams params, BindingResult bindingResult){
         int count=pmsItemAttrCategoryService.createItemAttrCategory( params );
         return ResultUtil.result( count );
